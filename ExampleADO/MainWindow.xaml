@@ -12,7 +12,11 @@
                 Canvas.Left="628" Canvas.Top="10" Click="Sart_Click" HorizontalAlignment="Left" VerticalAlignment="Center"/>
         <Button x:Name="second" Width="147" Height="30" Content="Вся информация"
         Canvas.Left="628" Canvas.Top="60" HorizontalAlignment="Center" VerticalAlignment="Top" Click="second_Click"/>
-        <Button x:Name="third" Width="147" Height="30" Content="Вся информация"
+        <Button x:Name="third" Width="147" Height="30" Content="Добавить"
 Canvas.Left="628" Canvas.Top="110" HorizontalAlignment="Center" VerticalAlignment="Top" Click="third_Click"/>
+        <Button x:Name="fourth" Width="147" Height="30" Content="Изменить"
+Canvas.Left="628" Canvas.Top="156" HorizontalAlignment="Center" VerticalAlignment="Top" Click="fourth_Click"/>
+        <Button x:Name="fiveth" Width="147" Height="30" Content="Удалить"
+Canvas.Left="628" Canvas.Top="202" HorizontalAlignment="Center" VerticalAlignment="Top" Click="fiveth_Click"/>
     </Canvas>
 </Window>

@@ -1,4 +1,5 @@
 ﻿using ExampleADO.DBWork;
+using ExampleADO.Models;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -31,9 +32,14 @@ namespace ExampleADO
         public MainWindow()
         {
             InitializeComponent();
-            factory = DbProviderFactories.GetFactory(ConfigurationManager.ConnectionStrings["MyCountries"].ProviderName);
+            factory = DbProviderFactories
+                .GetFactory(ConfigurationManager
+                        .ConnectionStrings["MyCountries"]
+                        .ProviderName);
             dbConnection = factory.CreateConnection();
-            dbConnection.ConnectionString = ConfigurationManager.ConnectionStrings["MyCountries"].ConnectionString;
+            dbConnection.ConnectionString = ConfigurationManager
+                        .ConnectionStrings["MyCountries"]
+                        .ConnectionString;
             //SelectQuery = new SelectQuery(dbConnection);
             UpdateQuery = new UpdateQuery(dbConnection, factory);
         }
@@ -50,7 +56,17 @@ namespace ExampleADO
 
         private void third_Click(object sender, RoutedEventArgs e)
         {
-        
+            //UpdateQuery.Insert(new Country { Name = "Псков", PartWorld = 1});
+        }
+
+        private void fourth_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateQuery.Update();
+        }
+
+        private void fiveth_Click(object sender, RoutedEventArgs e)
+        {
+            //UpdateQuery.Delete(new City { Name = "Псков"});
         }
     }
 }

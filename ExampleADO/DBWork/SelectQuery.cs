@@ -10,12 +10,12 @@ using System.Threading.Tasks;
 
 namespace ExampleADO.DBWork
 {
+    // присоединенный режим
     public class SelectQuery
     {
         private DbConnection dbConnection = null;
         private DbCommand dbCommand = null;
         private DbDataReader dbDataReader = null;
-        //Отображение полной информации о странах;
         public SelectQuery(DbConnection dbConnection)
         {
             this.dbConnection = dbConnection;
@@ -122,7 +122,7 @@ namespace ExampleADO.DBWork
                         }
                         DataRow row = dataTable.NewRow();
                         for (int i = 0; i < dbDataReader.FieldCount; i++)
-                            row[i] = await dbDataReader.GetFieldValueAsync<Object>(i);
+                            row[i] = await dbDataReader.GetFieldValueAsync<object>(i);
 
                         dataTable.Rows.Add(row);
                     }
