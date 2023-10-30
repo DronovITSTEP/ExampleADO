@@ -28,7 +28,7 @@ namespace ExampleADO
         DbProviderFactory factory;
 
         SelectQuery SelectQuery;
-        UpdateQuery UpdateQuery;
+        CountryQuery UpdateQuery;
         public MainWindow()
         {
             InitializeComponent();
@@ -40,33 +40,26 @@ namespace ExampleADO
             dbConnection.ConnectionString = ConfigurationManager
                         .ConnectionStrings["MyCountries"]
                         .ConnectionString;
-            //SelectQuery = new SelectQuery(dbConnection);
-            UpdateQuery = new UpdateQuery(dbConnection, factory);
+
+            UpdateQuery = new CountryQuery(dbConnection, factory);
         }
 
-        async private void Sart_Click(object sender, RoutedEventArgs e)
-        {           
-            dataGrid.ItemsSource = await SelectQuery.SelectAll();
-        }
-
-        private async void second_Click(object sender, RoutedEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
-            dataGrid.ItemsSource = await SelectQuery.SelectCountry("Россия");
+            EditWindow editWindow = new EditWindow(dbConnection, factory, 1);
+            editWindow.Show();
         }
 
-        private void third_Click(object sender, RoutedEventArgs e)
+        private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            //UpdateQuery.Insert(new Country { Name = "Псков", PartWorld = 1});
+            EditWindow editWindow = new EditWindow(dbConnection, factory, 2);
+            editWindow.Show();
         }
 
-        private void fourth_Click(object sender, RoutedEventArgs e)
+        private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            UpdateQuery.Update();
-        }
-
-        private void fiveth_Click(object sender, RoutedEventArgs e)
-        {
-            //UpdateQuery.Delete(new City { Name = "Псков"});
+            EditWindow editWindow = new EditWindow(dbConnection, factory, 3);
+            editWindow.Show();
         }
     }
 }

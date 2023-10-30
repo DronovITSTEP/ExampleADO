@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ExampleADO.Models
 {
-    internal class City
+    public class City
     {
         public string Name { get; set; }
         public int Population { get; set; }
