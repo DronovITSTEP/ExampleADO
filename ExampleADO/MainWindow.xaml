@@ -5,18 +5,82 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ExampleADO"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Canvas>
-        <DataGrid x:Name="dataGrid" Width="600" Height="250"/>
-        <Button x:Name="first" Width="147" Height="30" Content="Вся информация"
-                Canvas.Left="628" Canvas.Top="10" Click="Sart_Click" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-        <Button x:Name="second" Width="147" Height="30" Content="Вся информация"
-        Canvas.Left="628" Canvas.Top="60" HorizontalAlignment="Center" VerticalAlignment="Top" Click="second_Click"/>
-        <Button x:Name="third" Width="147" Height="30" Content="Добавить"
-Canvas.Left="628" Canvas.Top="110" HorizontalAlignment="Center" VerticalAlignment="Top" Click="third_Click"/>
-        <Button x:Name="fourth" Width="147" Height="30" Content="Изменить"
-Canvas.Left="628" Canvas.Top="156" HorizontalAlignment="Center" VerticalAlignment="Top" Click="fourth_Click"/>
-        <Button x:Name="fiveth" Width="147" Height="30" Content="Удалить"
-Canvas.Left="628" Canvas.Top="202" HorizontalAlignment="Center" VerticalAlignment="Top" Click="fiveth_Click"/>
-    </Canvas>
+        Title="MainWindow" Height="550" Width="1200">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <DataGrid x:Name="dataGrid" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Grid.RowSpan="3" Margin="10"/>
+
+        <Button Grid.Column="5" Grid.Row="0" Margin="10" Content="3.Показать инф-ю о стране"/>
+        <Button Grid.Column="5" Grid.Row="1" Margin="10" Content="4.Показать города страны"/>
+        <Button Grid.Column="5" Grid.Row="2" Margin="10" Content="5.показать страны с буквы..."/>
+        <Button Grid.Column="5" Grid.Row="3" Margin="10" Content="6.Показать столицы с буквы..."/>
+        <Button Grid.Column="5" Grid.Row="4" Margin="10" Content="12.Показать среднее кол-во жителей в стране"/>
+        <Button Grid.Column="5" Grid.Row="5" Margin="10" Content=""/>
+        <Button Grid.Column="6" Grid.Row="0" Margin="10" Content="1.Показать всё"/>
+        <Button Grid.Column="6" Grid.Row="1" Margin="10" Content="7.Топ-3 столиц с наименьшим кол-вом жителей"/>
+        <Button Grid.Column="6" Grid.Row="2" Margin="10" Content="8.Топ-3 стран с наименьшим кол-вом жителей"/>
+        <Button Grid.Column="6" Grid.Row="3" Margin="10" Content="9.Показать среднее кол-во жителей в столица по частям света"/>
+        <Button Grid.Column="6" Grid.Row="4" Margin="10" Content="10.Топ-3 стран по каждой части света с наименьшим кол-вом жителей"/>
+        <Button Grid.Column="6" Grid.Row="5" Margin="10" Content="11.Топ-3 стран по каждой части света с наибольшим кол-вом жителей"/>
+
+        <TextBox Grid.Column="4" Grid.Row="0" Margin="10"/>
+        <TextBox Grid.Column="4" Grid.Row="1" Margin="10"/>
+        <TextBox Grid.Column="4" Grid.Row="2" Margin="10"/>
+        <TextBox Grid.Column="4" Grid.Row="3" Margin="10"/>
+        <TextBox Grid.Column="4" Grid.Row="4" Margin="10"/>
+        <TextBox Grid.Column="4" Grid.Row="5" Margin="10"/>
+
+        <GroupBox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="3" Margin="10"
+                  Header="Параметры вывода">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <CheckBox Grid.Row="0" Content="Названия стран" Margin="5"/>
+                <CheckBox Grid.Row="1" Content="Столицы" Margin="5"/>
+                <CheckBox Grid.Row="2" Content="Население" Margin="5"/>
+                <CheckBox Grid.Row="3" Content="Часть света" Margin="5"/>
+                <Button Grid.Row="4" Content="2.Показать" Margin="5"/>
+            </Grid>
+        </GroupBox>
+        <GroupBox Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2" Grid.RowSpan="3" Margin="10"
+                  Header="Редактирование">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <UniformGrid Grid.Row="0" HorizontalAlignment="Stretch">
+                    <RadioButton Content="Страна" Margin="5" HorizontalAlignment="Center"/>
+                    <RadioButton Content="Город" Margin="5"  HorizontalAlignment="Center"/>
+                </UniformGrid>
+                <Button Grid.Row="1" Content="Добавить" Margin="5"/>
+                <Button Grid.Row="2" Content="Изменить" Margin="5"/>
+                <Button Grid.Row="3" Content="Удалить" Margin="5"/>
+            </Grid>
+        </GroupBox>
+    </Grid>
 </Window>
