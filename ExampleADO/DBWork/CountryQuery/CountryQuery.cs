@@ -17,27 +17,21 @@ namespace ExampleADO.DBWork
         public DbProviderFactory factory { get; }
         public DbConnection connection { get; }
 
+        DeleteRows dr = null;
+
         public CountryQuery(DbConnection connection, DbProviderFactory factory)
         {
             this.connection = connection;
             this.factory = factory;
+
+            dr = new DeleteRows(factory, connection);
         }
 
         public void Delete(Country country)
         {
-            DbDataAdapter adapter = factory.CreateDataAdapter();
-            // получаем таблицу
-            DataTable table = GetDataTable(adapter, country);
-
-            using (var builder = factory.CreateCommandBuilder())
-            {
-                builder.DataAdapter = adapter;
-                adapter.DeleteCommand = builder.GetUpdateCommand();
-                adapter.DeleteCommand.CommandText = ConfigurationManager.AppSettings["DeleteCountry"];
-                adapter.DeleteCommand.Parameters.AddRange(GetParameters(adapter.DeleteCommand, country));
-
-                adapter.Update(table);
-            }
+            dr.DeleteTable("Capitals","CountryId", country.Id);
+            dr.DeleteTable("CitiesOfCountries", "CountryId",country.Id);
+            dr.DeleteTable("Countries", "Id", country.Id);
         }
 
         public void Insert(Country country)
@@ -53,14 +47,13 @@ namespace ExampleADO.DBWork
         public void Update(Country country)
         {
             DbDataAdapter adapter = factory.CreateDataAdapter();
-            // получаем таблицу
             DataTable table = GetDataTable(adapter, country);
 
             using (var builder = factory.CreateCommandBuilder())
             {
-                builder.DataAdapter = adapter;         
-                adapter.UpdateCommand = builder.GetUpdateCommand();             
-                adapter.UpdateCommand.CommandText = ConfigurationManager.AppSettings["UpdateCountry"];             
+                builder.DataAdapter = adapter;
+                adapter.UpdateCommand = builder.GetUpdateCommand();
+                adapter.UpdateCommand.CommandText = ConfigurationManager.AppSettings["UpdateCountry"];
                 adapter.UpdateCommand.Parameters.AddRange(GetParameters(adapter.UpdateCommand, country));
 
                 adapter.Update(table);
@@ -70,7 +63,7 @@ namespace ExampleADO.DBWork
         private DataTable GetDataTable(DbDataAdapter adapter, Country country)
         {
             adapter.SelectCommand = connection.CreateCommand();
-            adapter.SelectCommand.CommandText = "select * from Countries where id = " + country.Id + "; select * from PartOfTheWorld where Id = " + country.PartOfTheWorldId;
+            adapter.SelectCommand.CommandText = "select * from Countries where id = " + country.Id;
             DataTable dataTable = new DataTable();
             adapter.Fill(dataTable);
 
