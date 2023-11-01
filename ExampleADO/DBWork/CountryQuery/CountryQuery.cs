@@ -41,13 +41,22 @@ namespace ExampleADO.DBWork
             adapter.InsertCommand.CommandText = ConfigurationManager.AppSettings["InsertCountry"];
             adapter.InsertCommand.Parameters.AddRange(GetParameters(adapter.InsertCommand, country));
 
-            adapter.Update(GetDataTable(country));
+            DataTable dataTable = new DataTable();
+
+            dataTable.Columns.Add(nameof(country.Name), typeof(string));
+            dataTable.Columns.Add(nameof(country.PartOfTheWorldId), typeof(int));
+            DataRow row = dataTable.NewRow();
+            row[nameof(country.Name)] = country.Name;
+            row[nameof(country.PartOfTheWorldId)] = country.PartOfTheWorldId;
+            dataTable.Rows.Add(row);
+
+            adapter.Update(dataTable);
         }
 
         public void Update(Country country)
         {
             DbDataAdapter adapter = factory.CreateDataAdapter();
-            DataTable table = GetDataTable(adapter, country);
+            DataTable table = GetDataTable(country);
 
             using (var builder = factory.CreateCommandBuilder())
             {
@@ -59,32 +68,15 @@ namespace ExampleADO.DBWork
                 adapter.Update(table);
             }
         }
-
-        private DataTable GetDataTable(DbDataAdapter adapter, Country country)
+        private DataTable GetDataTable(Country country)
         {
-            adapter.SelectCommand = connection.CreateCommand();
-            adapter.SelectCommand.CommandText = "select * from Countries where id = " + country.Id;
-            DataTable dataTable = new DataTable();
-            adapter.Fill(dataTable);
+            DataTable dataTable = dr.SelectTable("Countries", "id", country.Id);
 
             dataTable.AsEnumerable().
                 FirstOrDefault()[nameof(country.Name)] = country.Name;
             dataTable.AsEnumerable().
                 FirstOrDefault()[nameof(country.PartOfTheWorldId)] = country.PartOfTheWorldId;
             return dataTable;
-        }
-        private DataTable GetDataTable(Country country)
-        {
-            DataTable dataTable = new DataTable();
-
-            dataTable.Columns.Add(nameof(country.Name), typeof(string));
-            dataTable.Columns.Add(nameof(country.PartOfTheWorldId), typeof(int));
-            DataRow row = dataTable.NewRow();
-            row[nameof(country.Name)] = country.Name;
-            row[nameof(country.PartOfTheWorldId)] = country.PartOfTheWorldId;
-            dataTable.Rows.Add(row);
-            return dataTable;
-
         }
         private DbParameter[] GetParameters(DbCommand com, Country country)
         {
