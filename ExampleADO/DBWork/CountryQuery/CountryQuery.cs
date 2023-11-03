@@ -12,39 +12,28 @@ using System.Xml.Linq;
 
 namespace ExampleADO.DBWork
 {
-    public class CountryQuery : IQuery<Country>, IConnection
+    public class CountryQuery : AbstractQuery
     {
-        public DbProviderFactory factory { get; }
-        public DbConnection connection { get; }
+        public CountryQuery(DbConnection connection, DbProviderFactory factory) : base(connection, factory){ }
 
-        private CRUDRows cr = null;
-        private ITable tab = null;
-
-        public CountryQuery(DbConnection connection, DbProviderFactory factory)
+        public override void Delete<T>(T country)
         {
-            this.connection = connection;
-            this.factory = factory;
-
-            cr = new CRUDRows(factory, connection);
+            cr.DeleteRow("Capitals","CountryId", (country as Country).Id);
+            cr.DeleteRow("CitiesOfCountries", "CountryId", (country as Country).Id);
+            cr.DeleteRow("Countries", "Id", (country as Country).Id);
         }
 
-        public void Delete(Country country)
+        public override void Insert<T>(T country)
         {
-            cr.DeleteRow("Capitals","CountryId", country.Id);
-            cr.DeleteRow("CitiesOfCountries", "CountryId",country.Id);
-            cr.DeleteRow("Countries", "Id", country.Id);
+            cr.InsertRow("Countries", (country as Country).Name, (country as Country).PartOfTheWorldId);
         }
 
-        public void Insert(Country country)
+        public override void Update<T>(T country)
         {
-            cr.InsertRow("Countries", country.Name, country.PartOfTheWorldId);
-        }
-
-        public void Update(Country country)
-        {
-            tab.Name = country.Name;
-            tab.Num = country.PartOfTheWorldId;
-            cr.UpdateRow("Countries", country.Name, country.PartOfTheWorldId, tab);
+            Country c = country as Country;
+            cr.UpdateRow("Countries", c.Name, c.PartOfTheWorldId,
+                nameof(c.Name),
+                nameof(c.PartOfTheWorldId));
         }
     }
 }

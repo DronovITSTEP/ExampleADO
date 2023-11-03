@@ -42,21 +42,23 @@ namespace ExampleADO
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            IConnection con;
+            AbstractQuery abstractQuery;
 
             if (radioCity.IsChecked == true)
-                con = new CityQuery(dbConnection, factory);
+                abstractQuery = new CityQuery(dbConnection, factory);
             else
-                con = new CountryQuery(dbConnection, factory);
+                abstractQuery = new CountryQuery(dbConnection, factory);
 
-            EditWindow editWindow = null;
+            EditWindow editWindow = editWindow = new EditWindow(abstractQuery);
 
             if ((sender as Button) == InsertButton)
-                editWindow = new EditWindow(con, (int)CHOICE.ADD);
+                editWindow.eventCountry += abstractQuery.Insert;
+
             else if ((sender as Button) == UpdateButton)
-                editWindow = new EditWindow(con, (int)CHOICE.UPDATE);
+                editWindow.eventCountry += abstractQuery.Update;
+
             else if ((sender as Button) == DeleteButton)
-                editWindow = new EditWindow(con, (int)CHOICE.DELETE);
+                editWindow.eventCountry += abstractQuery.Delete;
 
             editWindow.Show();
         }

@@ -7,7 +7,7 @@ using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ExampleADO.Models;
+
 
 namespace ExampleADO.DBWork
 {
@@ -28,7 +28,7 @@ namespace ExampleADO.DBWork
         /// <param name="condition">условие по какому идентификатору идет отбор</param>
         /// <param name="id">значение идентификатора</param>
         /// <returns>возвращает итоговую таблицу</returns>
-        public DataTable SelectAllRows(string tableName, string condition, int id)
+        public virtual DataTable SelectAllRows(string tableName, string condition, int id)
         {
             using (adapter = factory.CreateDataAdapter())
             {
@@ -80,12 +80,12 @@ namespace ExampleADO.DBWork
                 }
             }
         }
-        public void UpdateRow(string tableName, string name, int num, ITable tab)
+        public void UpdateRow(string tableName, string name, int num, string column1, string column2)
         {
             using (adapter = factory.CreateDataAdapter())
             {
                 adapter.UpdateCommand = connection.CreateCommand();
-                adapter.UpdateCommand.CommandText = GetUpdateQuery(tableName, name, num, tab);
+                adapter.UpdateCommand.CommandText = GetUpdateQuery(tableName, name, num, column1, column2);
 
                 using (var builder = factory.CreateCommandBuilder())
                 {
@@ -101,6 +101,6 @@ namespace ExampleADO.DBWork
         private string GetSelectQuery(string tableName, string condition, int id) => $"select * from {tableName} where {condition} = {id}";
         private string GetDeleteQuery(string tableName, string condition, int id) => $"delete from {tableName} where {condition} = {id}";
         private string GetInsertQuery(string table, string name, int num) => $"insert into {table} values ('{name}', {num})";
-        private string GetUpdateQuery(string table, string name, int num, ITable tab) => $"update {table} set {name} = {tab.Name}, {num} = {tab.Num}";
+        private string GetUpdateQuery(string table, string name, int num, string column1, string column2) => $"update {table} set {column1} = '{name}', {column2} = {num}";
     }
 }

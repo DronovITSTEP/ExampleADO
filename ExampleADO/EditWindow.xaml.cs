@@ -22,54 +22,31 @@ namespace ExampleADO
     /// </summary>
     public partial class EditWindow : Window
     {
-        CountryQuery countryQuery;
-        CityQuery cityQuery;
+        AbstractQuery baseQuery;
 
-        int initMethod;
-        public EditWindow(IConnection con, int i)
+        public event Action<Country> eventCountry;
+        public event Action<City> eventCity;
+        public EditWindow(AbstractQuery aq)
         {
             InitializeComponent();
-
-            this.initMethod = i;
-            if (con is CityQuery)
-                cityQuery = (CityQuery)con;
-            else if (con is CountryQuery)
-                countryQuery = (CountryQuery)con;
+            baseQuery = aq;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (countryQuery != null)
-                CallMethod(countryQuery, InitCountry());
-            else if (cityQuery != null)
-                CallMethod(cityQuery, InitCity());
-        }
-        private City InitCity() {
-            City city = new City();
-            city.Name = Name.Text;
-            city.Population = int.Parse(Number.Text);
-            return city;
-        }
-        private Country InitCountry() {
-            Country country = new Country();
-            country.Name = Name.Text;
-            country.PartOfTheWorldId = int.Parse(Number.Text);
-            return country;
-        }
-        private void CallMethod<T>(IQuery<T> query, T c)
-        {
-            if (initMethod == 1)
-            {
-                query.Insert(c);
-            }
-            else if (initMethod == 2)
-            {
-                query.Update(c);
-            }
-            else if (initMethod == 3)
-            {
-                query.Delete(c);
-            }
+            if (baseQuery.GetType() == typeof(CountryQuery))
+                eventCountry(new Country
+                {
+                    Id = 1011,
+                    Name = Name.Text,
+                    PartOfTheWorldId = int.Parse(Number.Text)
+                });
+            else if (baseQuery.GetType() == typeof(CityQuery))
+                eventCity(new City
+                {
+                    Name = Name.Text,
+                    Population = int.Parse(Number.Text)
+                });
         }
     }
 }
