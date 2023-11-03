@@ -7,10 +7,13 @@ using System.Threading.Tasks;
 
 namespace ExampleADO.DBWork
 {
-    public interface IQuery <T>
+    public interface IConnection 
     {
         DbConnection connection { get; }
-        DbProviderFactory factory { get;}
+        DbProviderFactory factory { get;}       
+    }
+    public interface IQuery<T>
+    {
         void Insert(T obj);
         void Update(T obj);
         void Delete(T obj);

@@ -86,8 +86,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DBWork\CityQuery\CityQuery.cs" />
-    <Compile Include="DBWork\DeleteRows.cs" />
-    <Compile Include="DBWork\IQuery.cs" />
+    <Compile Include="DBWork\CRUDRows.cs" />
+    <Compile Include="DBWork\Interfaces\IQuery.cs" />
+    <Compile Include="DBWork\Interfaces\ITable.cs" />
     <Compile Include="DBWork\SelectQuery.cs" />
     <Compile Include="DBWork\CountryQuery\CountryQuery.cs" />
     <Compile Include="EditWindow.xaml.cs">

@@ -6,35 +6,39 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ExampleADO.DBWork.CityQuery
+namespace ExampleADO.DBWork
 {
-    public class CityQuery : IQuery<City>
+    public class CityQuery : IQuery<City>, IConnection
     {
         public DbConnection connection { get; }
         public DbProviderFactory factory { get; }
-        DeleteRows dr;
+        private CRUDRows cr = null;
+        private ITable tab = null;
         public CityQuery(DbConnection connection, DbProviderFactory factory)
         {
             this.connection = connection;
             this.factory = factory;
-            dr = new DeleteRows(factory, connection);
+
+            cr = new CRUDRows(factory, connection);
         }
 
         public void Delete(City city)
         {
-            dr.DeleteTable("Capitals", "CityId", city.Id);
-            dr.DeleteTable("CitiesOfCountries", "CityId", city.Id);
-            dr.DeleteTable("City", "Id", city.Id);
+            cr.DeleteRow("Capitals", "CityId", city.Id);
+            cr.DeleteRow("CitiesOfCountries", "CityId", city.Id);
+            cr.DeleteRow("Cities", "Id", city.Id);
         }
 
         public void Insert(City city)
         {
-            throw new NotImplementedException();
+            cr.InsertRow("Cities", city.Name, city.Population);
         }
 
         public void Update(City city)
         {
-            throw new NotImplementedException();
+            tab.Name = city.Name;
+            tab.Num = city.Population;
+            cr.UpdateRow("Cities", city.Name, city.Population, tab);
         }
     }
 }

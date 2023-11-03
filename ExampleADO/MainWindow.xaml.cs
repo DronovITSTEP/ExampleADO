@@ -22,13 +22,11 @@ namespace ExampleADO
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
     /// </summary>
+    enum CHOICE { ADD = 1, UPDATE, DELETE }
     public partial class MainWindow : Window
     {
         DbConnection dbConnection;
         DbProviderFactory factory;
-
-        SelectQuery SelectQuery;
-        CountryQuery UpdateQuery;
         public MainWindow()
         {
             InitializeComponent();
@@ -40,25 +38,26 @@ namespace ExampleADO
             dbConnection.ConnectionString = ConfigurationManager
                         .ConnectionStrings["MyCountries"]
                         .ConnectionString;
-
-            UpdateQuery = new CountryQuery(dbConnection, factory);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            EditWindow editWindow = new EditWindow(dbConnection, factory, 1);
-            editWindow.Show();
-        }
+            IConnection con;
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-            EditWindow editWindow = new EditWindow(dbConnection, factory, 2);
-            editWindow.Show();
-        }
+            if (radioCity.IsChecked == true)
+                con = new CityQuery(dbConnection, factory);
+            else
+                con = new CountryQuery(dbConnection, factory);
 
-        private void Button_Click_2(object sender, RoutedEventArgs e)
-        {
-            EditWindow editWindow = new EditWindow(dbConnection, factory, 3);
+            EditWindow editWindow = null;
+
+            if ((sender as Button) == InsertButton)
+                editWindow = new EditWindow(con, (int)CHOICE.ADD);
+            else if ((sender as Button) == UpdateButton)
+                editWindow = new EditWindow(con, (int)CHOICE.UPDATE);
+            else if ((sender as Button) == DeleteButton)
+                editWindow = new EditWindow(con, (int)CHOICE.DELETE);
+
             editWindow.Show();
         }
     }

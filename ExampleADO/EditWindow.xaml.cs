@@ -22,25 +22,54 @@ namespace ExampleADO
     /// </summary>
     public partial class EditWindow : Window
     {
-        private int id;
         CountryQuery countryQuery;
-        public EditWindow(DbConnection dbConnection, DbProviderFactory factory, int id)
+        CityQuery cityQuery;
+
+        int initMethod;
+        public EditWindow(IConnection con, int i)
         {
             InitializeComponent();
-            countryQuery = new CountryQuery(dbConnection, factory);
-            this.id = id;
+
+            this.initMethod = i;
+            if (con is CityQuery)
+                cityQuery = (CityQuery)con;
+            else if (con is CountryQuery)
+                countryQuery = (CountryQuery)con;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Country country = new Country { Name = NameCountry.Text, 
-                PartOfTheWorldId = PartWorlds.SelectedIndex+1, Id = int.Parse(IdCountry.Text)};
-            if (id == 1)
-                countryQuery.Insert(country);
-            else if (id == 2)
-                countryQuery.Update(country);
-            else if (id == 3)
-                countryQuery.Delete(country);
+            if (countryQuery != null)
+                CallMethod(countryQuery, InitCountry());
+            else if (cityQuery != null)
+                CallMethod(cityQuery, InitCity());
+        }
+        private City InitCity() {
+            City city = new City();
+            city.Name = Name.Text;
+            city.Population = int.Parse(Number.Text);
+            return city;
+        }
+        private Country InitCountry() {
+            Country country = new Country();
+            country.Name = Name.Text;
+            country.PartOfTheWorldId = int.Parse(Number.Text);
+            return country;
+        }
+        private void CallMethod<T>(IQuery<T> query, T c)
+        {
+            if (initMethod == 1)
+            {
+                query.Insert(c);
+            }
+            else if (initMethod == 2)
+            {
+                query.Update(c);
+            }
+            else if (initMethod == 3)
+            {
+                query.Delete(c);
+            }
         }
     }
 }
