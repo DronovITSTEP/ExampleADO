@@ -1,39 +1,35 @@
 ﻿using ExampleADO.Models;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
 using System.Data.Common;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Xml.Linq;
+
 
 namespace ExampleADO.DBWork
 {
     public class CountryQuery : AbstractQuery
     {
+        private Country country;
         public CountryQuery(DbConnection connection, DbProviderFactory factory) : base(connection, factory){ }
 
-        public override void Delete<T>(T country)
+        public override void Delete<T>(T c)
         {
-            cr.DeleteRow("Capitals","CountryId", (country as Country).Id);
-            cr.DeleteRow("CitiesOfCountries", "CountryId", (country as Country).Id);
-            cr.DeleteRow("Countries", "Id", (country as Country).Id);
+            country = c as Country;
+
+            cr.DeleteRow("Capitals","CountryId", country.Id);
+            cr.DeleteRow("CitiesOfCountries", "CountryId", country.Id);
+            cr.DeleteRow("Countries", "Id", country.Id);
         }
 
-        public override void Insert<T>(T country)
+        public override void Insert<T>(T c)
         {
-            cr.InsertRow("Countries", (country as Country).Name, (country as Country).PartOfTheWorldId);
+            country = c as Country;
+            cr.InsertRow("Countries", country.Name, country.PartOfTheWorldId);
         }
 
-        public override void Update<T>(T country)
+        public override void Update<T>(T c)
         {
-            Country c = country as Country;
-            cr.UpdateRow("Countries", c.Name, c.PartOfTheWorldId,
-                nameof(c.Name),
-                nameof(c.PartOfTheWorldId));
+            country = c as Country;
+            cr.UpdateRow("Countries", nameof(country.Name), nameof(country.PartOfTheWorldId),
+                country.Name,
+                country.PartOfTheWorldId, country.Id);
         }
     }
 }

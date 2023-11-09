@@ -1,32 +1,32 @@
 ﻿using ExampleADO.Models;
-using System;
-using System.Collections.Generic;
 using System.Data.Common;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace ExampleADO.DBWork
 {
     public class CityQuery : AbstractQuery
-    {     
+    {
+        private City city;
         public CityQuery(DbConnection connection, DbProviderFactory factory): base(connection, factory){}
 
-        public override void Delete<T>(T city)
+        public override void Delete<T>(T c)
         {
-            cr.DeleteRow("Capitals", "CityId", (city as City).Id);
-            cr.DeleteRow("CitiesOfCountries", "CityId", (city as City).Id);
-            cr.DeleteRow("Cities", "Id", (city as City).Id);
+            city = c as City;
+            cr.DeleteRow("Capitals", "CityId", city.Id);
+            cr.DeleteRow("CitiesOfCountries", "CityId", city.Id);
+            cr.DeleteRow("Cities", "Id", city.Id);
         }
-        public override void Insert<T>(T city)
+        public override void Insert<T>(T c)
         {
-            cr.InsertRow("Cities", (city as City).Name, (city as City).Population);
+            city = c as City;
+            cr.InsertRow("Cities", city.Name, city.Population);
         }
-        public override void Update<T>(T city)
+        public override void Update<T>(T c)
         {
-           /* tab.Name = (city as City).Name;
-            tab.Num = (city as City).Population;
-            cr.UpdateRow("Cities", (city as City).Name, (city as City).Population, tab);*/
+            city = c as City;
+            cr.UpdateRow("Cities", nameof(city.Name), nameof(city.Population),
+                city.Name,
+                city.Population, city.Id);
         }
     }
 }

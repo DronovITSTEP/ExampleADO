@@ -7,6 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="550" Width="1200">
     <Grid>
+
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition/>
@@ -27,25 +28,61 @@
 
         <DataGrid x:Name="dataGrid" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Grid.RowSpan="3" Margin="10"/>
 
-        <Button Grid.Column="5" Grid.Row="0" Margin="10" Content="3.Показать инф-ю о стране"/>
-        <Button Grid.Column="5" Grid.Row="1" Margin="10" Content="4.Показать города страны"/>
-        <Button Grid.Column="5" Grid.Row="2" Margin="10" Content="5.показать страны с буквы..."/>
-        <Button Grid.Column="5" Grid.Row="3" Margin="10" Content="6.Показать столицы с буквы..."/>
-        <Button Grid.Column="5" Grid.Row="4" Margin="10" Content="12.Показать среднее кол-во жителей в стране"/>
-        <Button Grid.Column="5" Grid.Row="5" Margin="10" Content=""/>
-        <Button Grid.Column="6" Grid.Row="0" Margin="10" Content="1.Показать всё"/>
-        <Button Grid.Column="6" Grid.Row="1" Margin="10" Content="7.Топ-3 столиц с наименьшим кол-вом жителей"/>
-        <Button Grid.Column="6" Grid.Row="2" Margin="10" Content="8.Топ-3 стран с наименьшим кол-вом жителей"/>
-        <Button Grid.Column="6" Grid.Row="3" Margin="10" Content="9.Показать среднее кол-во жителей в столица по частям света"/>
-        <Button Grid.Column="6" Grid.Row="4" Margin="10" Content="10.Топ-3 стран по каждой части света с наименьшим кол-вом жителей"/>
-        <Button Grid.Column="6" Grid.Row="5" Margin="10" Content="11.Топ-3 стран по каждой части света с наибольшим кол-вом жителей"/>
+        <Button Grid.Column="5" Grid.Row="0" Margin="10" Click="Button_Click_2">
+            <TextBlock TextWrapping="Wrap"
+                Text="+3.Показать инф-ю о стране"/>
+        </Button>
+        <Button Grid.Column="5" Grid.Row="1" Margin="10" Click="Button_Click_3">
+            <TextBlock TextWrapping="Wrap"
+                Text="+4.Показать города страны"/>
+        </Button>
+        <Button Grid.Column="5" Grid.Row="2" Margin="10" Click="Button_Click_4">
+            <TextBlock TextWrapping="Wrap"
+                Text="+5.показать страны с буквы..."/>
+        </Button>
+        <Button Grid.Column="5" Grid.Row="3" Margin="10" Click="Button_Click_5">
+            <TextBlock TextWrapping="Wrap"
+                Text="+6.Показать столицы с буквы..."/>
+        </Button>
+        <Button Grid.Column="5" Grid.Row="4" Margin="10" Click="Button_Click_11">
+            <TextBlock TextWrapping="Wrap"
+                Text="12.Показать среднее кол-во жителей в стране"/>
+        </Button>
+        <Button Grid.Column="5" Grid.Row="5" Margin="10" Click="Button_Click_12">
+            <TextBlock TextWrapping="Wrap"
+                Text="13.Показать город с наименьшим количеством жителей в конкретной стране"/>
+        </Button>
+        <Button Grid.Column="6" Grid.Row="0" Margin="10" Click="Button_Click_1">
+            <TextBlock TextWrapping="Wrap"
+                Text="+1.Показать всё"/>
+        </Button>
+        <Button Grid.Column="6" Grid.Row="1" Margin="10" Click="Button_Click_6">
+            <TextBlock TextWrapping="Wrap"
+                Text="+7.Топ-3 столиц с наименьшим кол-вом жителей"/>
+        </Button>
+        <Button Grid.Column="6" Grid.Row="2" Margin="10" Click="Button_Click_7">
+            <TextBlock TextWrapping="Wrap"
+                Text="+8.Топ-3 стран с наименьшим кол-вом жителей"/>
+        </Button>
+        <Button Grid.Column="6" Grid.Row="3" Margin="10" Click="Button_Click_8">
+            <TextBlock TextWrapping="Wrap"
+                Text="+9.Показать среднее кол-во жителей в столица по частям света"/>
+        </Button>
+        <Button Grid.Column="6" Grid.Row="4" Margin="10" Click="Button_Click_9">
+            <TextBlock TextWrapping="Wrap"
+                Text="+10.Топ-3 стран по каждой части света с наименьшим кол-вом жителей"/>
+        </Button>
+        <Button Grid.Column="6" Grid.Row="5" Margin="10" Click="Button_Click_10">
+            <TextBlock TextWrapping="Wrap"
+                Text="+11.Топ-3 стран по каждой части света с наибольшим кол-вом жителей"/>
+        </Button>
 
-        <TextBox Grid.Column="4" Grid.Row="0" Margin="10"/>
-        <TextBox Grid.Column="4" Grid.Row="1" Margin="10"/>
-        <TextBox Grid.Column="4" Grid.Row="2" Margin="10"/>
-        <TextBox Grid.Column="4" Grid.Row="3" Margin="10"/>
-        <TextBox Grid.Column="4" Grid.Row="4" Margin="10"/>
-        <TextBox Grid.Column="4" Grid.Row="5" Margin="10"/>
+        <TextBox x:Name="CountryName" Grid.Column="4" Grid.Row="0" Margin="10"/>
+        <TextBox x:Name="CityNameByCountry" Grid.Column="4" Grid.Row="1" Margin="10"/>
+        <TextBox x:Name="CountryChar" Grid.Column="4" Grid.Row="2" Margin="10"/>
+        <TextBox Name="CapitalChar" Grid.Column="4" Grid.Row="3" Margin="10"/>
+        <TextBox x:Name="CountryName2" Grid.Column="4" Grid.Row="4" Margin="10"/>
+        <TextBox x:Name="CountryName3" Grid.Column="4" Grid.Row="5" Margin="10"/>
 
         <GroupBox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="3" Margin="10"
                   Header="Параметры вывода">
@@ -57,11 +94,11 @@
                     <RowDefinition/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <CheckBox Grid.Row="0" Content="Названия стран" Margin="5"/>
-                <CheckBox Grid.Row="1" Content="Столицы" Margin="5"/>
-                <CheckBox Grid.Row="2" Content="Население" Margin="5"/>
-                <CheckBox Grid.Row="3" Content="Часть света" Margin="5"/>
-                <Button Grid.Row="4" Content="2.Показать" Margin="5"/>
+                <CheckBox x:Name="CheckCoutryName" Grid.Row="0" Content="Названия стран" Margin="5"/>
+                <CheckBox x:Name="CheckCapital" Grid.Row="1" Content="Столицы" Margin="5"/>
+                <CheckBox x:Name="CheckPopulation" Grid.Row="2" Content="Население" Margin="5"/>
+                <CheckBox x:Name="CheckPartOfTheWorld" Grid.Row="3" Content="Часть света" Margin="5"/>
+                <Button Grid.Row="4" Content="2.Показать" Margin="5" Click="Button_Click_13"/>
             </Grid>
         </GroupBox>
         <GroupBox Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2" Grid.RowSpan="3" Margin="10"

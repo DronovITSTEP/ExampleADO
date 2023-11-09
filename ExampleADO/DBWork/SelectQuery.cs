@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
+﻿using System.Configuration;
 using System.Data;
 using System.Data.Common;
-using System.Dynamic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ExampleADO.DBWork
@@ -13,12 +8,10 @@ namespace ExampleADO.DBWork
     // присоединенный режим
     public class SelectQuery
     {
-        private DbConnection dbConnection = null;
-        private DbCommand dbCommand = null;
+        private readonly DbCommand dbCommand = null;
         private DbDataReader dbDataReader = null;
         public SelectQuery(DbConnection dbConnection)
         {
-            this.dbConnection = dbConnection;
             dbConnection.Open();
             dbCommand = dbConnection.CreateCommand();
         }
@@ -30,7 +23,15 @@ namespace ExampleADO.DBWork
             return await ReadBase(dbCommand);
         }
         //2.Отображение частичной информации о странах.Количество информации определяется пользователем;
-        
+        async public Task<DataView> SelectAllWithParameters(string param)
+        {
+            dbCommand.CommandText = $"select {param} from Countries " +
+                $"join PartOfTheWorld on Countries.PartOfTheWorldId = PartOfTheWorld.Id " +
+                $"join Capitals C on Countries.Id = C.CountryId " +
+                $"join Cities on Cities.Id = C.CityId " +
+                $"group by Countries.Name, Cities.Name, PartOfTheWorld.Name";
+            return await ReadBase(dbCommand);
+        }
         //3.Отображение информации о конкретной стране;
         async public Task<DataView> SelectCountry(string country)
         {
